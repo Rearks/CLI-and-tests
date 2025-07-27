@@ -1,0 +1,68 @@
+Index: Rename.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Rename.py b/Rename.py
+--- a/Rename.py	(revision 0d5bc9b1801eb3400977c6cf25bdf05697f20dba)
++++ b/Rename.py	(date 1753528298223)
+@@ -1,0 +1,16 @@
++import os
++import datetime
++
++def rename_with_date(file_path):
++
++    creation_time = os.path.getctime(file_path)
++    date_str = datetime.datetime.fromtimestamp(creation_time).strftime("%Y-%m-%d")
++
++    dir_name = os.path.dirname(file_path)
++    base_name = os.path.basename(file_path)
++
++    new_name = f"{date_str}_{base_name}"
++    new_path = os.path.join(dir_name, new_name)
++
++    os.rename(file_path, new_path)
++    print(f"Файл переименован: {file_path} → {new_path}")
+\ No newline at end of file
+Index: CLITest.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from Copy import copy_file\r\ncopy_file(\"test.txt\", \"hello_copy2.txt\")\r\n\r\nfrom Delete import delete_file\r\ndelete_file(\"Test2.txt\")
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/CLITest.py b/CLITest.py
+--- a/CLITest.py	(revision 0d5bc9b1801eb3400977c6cf25bdf05697f20dba)
++++ b/CLITest.py	(date 1753528375851)
+@@ -1,5 +1,8 @@
+ from Copy import copy_file
+-copy_file("test.txt", "hello_copy2.txt")
++#copy_file("test.txt", "hello_copy2.txt")
+ 
+-from Delete import delete_file
+-delete_file("Test2.txt")
+\ No newline at end of file
++#from Delete import delete_file
++#delete_file("Test2.txt")
++
++from Rename import rename_with_date
++rename_with_date("test.txt")
+\ No newline at end of file
+Index: test.txt
+===================================================================
+diff --git a/test.txt b/test.txt
+deleted file mode 100644
+--- a/test.txt	(revision 0d5bc9b1801eb3400977c6cf25bdf05697f20dba)
++++ /dev/null	(revision 0d5bc9b1801eb3400977c6cf25bdf05697f20dba)
+@@ -1,1 +0,0 @@
+-hello
+\ No newline at end of file
+Index: Test2.txt
+===================================================================
+diff --git a/Test2.txt b/Test2.txt
+deleted file mode 100644
+--- a/Test2.txt	(revision 0d5bc9b1801eb3400977c6cf25bdf05697f20dba)
++++ /dev/null	(revision 0d5bc9b1801eb3400977c6cf25bdf05697f20dba)
+@@ -1,1 +0,0 @@
+-hello
+\ No newline at end of file
